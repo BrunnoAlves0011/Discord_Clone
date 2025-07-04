@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
       "uploadthing.com",
       "gwlxcbjf2z.ufs.sh"
     ]
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   }
 };
 

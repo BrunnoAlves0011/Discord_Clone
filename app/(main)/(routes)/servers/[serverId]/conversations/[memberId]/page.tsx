@@ -23,7 +23,6 @@ const MemberIdPage = async ({
     searchParams
 }: MemberIdPageProps) => {
     const { video } = await searchParams;
-    const { memberId, serverId } = await params;
     const profile = await currentProfile();
 
     if (!profile) {
@@ -32,7 +31,7 @@ const MemberIdPage = async ({
 
     const currentMember = await db.member.findFirst({
         where: {
-            serverId: serverId,
+            serverId: params.serverId,
             profileId: profile.id,
         },
         include: {
@@ -40,14 +39,16 @@ const MemberIdPage = async ({
         }
     });
 
+    if(!currentMember) return null;
+
     if (!currentProfile) {
         return redirect("/");
     }
 
-    const conversation = await getOrCreateConversation(currentMember.id, memberId);
+    const conversation = await getOrCreateConversation(currentMember.id, params.memberId);
 
     if (!conversation) {
-        return redirect(`/servers/${serverId}`);
+        return redirect(`/servers/${params.serverId}`);
     }
 
     const { memberOne, memberTwo } = conversation;
@@ -59,7 +60,7 @@ const MemberIdPage = async ({
             <ChatHeader
                 imageUrl={otherMember.profile.imageUrl}
                 name={otherMember.profile.name}
-                serverId={serverId}
+                serverId={params.serverId}
                 type="conversation"
             />
             {video && (

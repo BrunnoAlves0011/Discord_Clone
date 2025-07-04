@@ -11,7 +11,6 @@ interface ServerIdPageProps {
 const ServerIdPage = async ({
     params
 }: ServerIdPageProps) => {
-    const { serverId } = await params;
     const profile = await currentProfile();
     
     if(!profile) {
@@ -20,7 +19,7 @@ const ServerIdPage = async ({
 
     const server = await db.server.findUnique({
         where: {
-            id: serverId,
+            id: params.serverId,
             members: {
                 some: {
                     profileId: profile.id,
@@ -45,7 +44,7 @@ const ServerIdPage = async ({
         return null;
     }
 
-    return redirect(`/servers/${serverId}/channels/${initialChannel?.id}`)
+    return redirect(`/servers/${params.serverId}/channels/${initialChannel?.id}`)
 }
  
 export default ServerIdPage;

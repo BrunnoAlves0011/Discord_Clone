@@ -1,4 +1,4 @@
-import { BotOff } from "lucide-react";
+
 import { useEffect, useState } from "react";
 
 type ChatScrollProps = {

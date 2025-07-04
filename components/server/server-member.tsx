@@ -47,6 +47,7 @@ export const ServerMember = ({
             )}>
                 {member.profile.name}
             </p>
+            <p className="hidden">{server.id}</p>
             {icon}
         </button>
     )

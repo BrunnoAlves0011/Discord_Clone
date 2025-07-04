@@ -117,7 +117,7 @@ export const ChatItem = ({
         form.reset({
             content: content,
         })
-    }, [content]);
+    }, [form, content]);
 
     const type = fileType?.split(".").pop();
 

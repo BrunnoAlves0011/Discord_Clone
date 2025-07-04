@@ -6,7 +6,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Video, VideoOff } from "lucide-react";
 
 import { ActionTooltip } from "@/components/action-tooltip";
-import { sqltag } from "@prisma/client/runtime/library";
 
 export const ChatVideoButton = () => {
     const pathname = usePathname();

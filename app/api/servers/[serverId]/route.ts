@@ -2,11 +2,17 @@ import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { Metadata, ResolvingMetadata } from "next";
 
+type Props = {
+    params: Promise<{ serverId: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 export async function DELETE(
     req: Request,
-    { params }: { params: { serverId: string }}
-){
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<NextResponse> {
     try {
         const { serverId } = await params;
         const profile = await currentProfile();
@@ -32,8 +38,9 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { serverId: string }}
-){
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<NextResponse> {
     try {
         const { serverId } = await params;
         const profile = await currentProfile();

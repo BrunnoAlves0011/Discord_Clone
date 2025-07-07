@@ -5,6 +5,7 @@ import { MediaRoom } from "@/components/media-room";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { ChannelType } from "@prisma/client";
+import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 
 interface ChannelIdPageProps {
@@ -14,9 +15,15 @@ interface ChannelIdPageProps {
     }
 }
 
+type Props = {
+    params: Promise<{ serverId: string, channelId: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
 const ChannelIdPage = async ({
-    params
-}: ChannelIdPageProps) => {
+    params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<any> => {
     const { serverId, channelId } = await params;
     const profile = await currentProfile();
 

@@ -2,11 +2,18 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/current-profile";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+    params: Promise<{ serverId: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
 export async function PATCH(
-    req: Request,
-    { params }: { params: { serverId: string } }
-) {
+ req: Request,
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<NextResponse> {
     try {
         const { serverId } = await params;
         const profile = await currentProfile();

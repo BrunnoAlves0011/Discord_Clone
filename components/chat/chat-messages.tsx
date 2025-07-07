@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useRef, ElementRef } from "react";
+import { Fragment, useRef, ElementRef, ComponentRef } from "react";
 import { format } from "date-fns";
 import { Member, Message, Profile } from "@prisma/client";
 import { Loader2, ServerCrash } from "lucide-react";
@@ -47,8 +47,8 @@ export const ChatMessages = ({
     const addKey = `chat:${chatId}:messages`;
     const updateKey = `chat:${chatId}:messages:update`;
 
-    const chatRef = useRef<ElementRef<"div">>(null);
-    const bottomRef = useRef<ElementRef<"div">>(null);
+    const chatRef = useRef<ComponentRef<"div">>(null);
+    const bottomRef = useRef<ComponentRef<"div">>(null);
 
     const {
         data,
@@ -72,7 +72,7 @@ export const ChatMessages = ({
         count: data?.pages?.[0]?.items?.length ?? 0 
     });
 
-    if (status === "pending" || status === "loading") {
+    if (status !== "success" && status !== "error") {
         return (
             <div className="flex flex-col flex-1 justify-center items-center">
                 <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />

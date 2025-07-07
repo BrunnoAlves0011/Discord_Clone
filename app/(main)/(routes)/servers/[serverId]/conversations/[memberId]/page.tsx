@@ -7,6 +7,7 @@ import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { ChatInput } from "@/components/chat/chat-input";
 import { MediaRoom } from "@/components/media-room";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface MemberIdPageProps {
     params: {
@@ -18,10 +19,15 @@ interface MemberIdPageProps {
     }
 }
 
+type Props = {
+    params: Promise<{ memberId: string, serverId: string }>
+    searchParams: Promise<{ video?: boolean }>
+}
+
 const MemberIdPage = async ({
-    params,
-    searchParams
-}: MemberIdPageProps) => {
+    params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<any> => {
     const { serverId, memberId } = await params;
     const { video } = await searchParams;
     const profile = await currentProfile();

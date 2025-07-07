@@ -2,11 +2,18 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+    params: Promise<{ channelId: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { channelId: string } }
-) {
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<NextResponse> {
     try {
         const { channelId } = await params;
         const profile = await currentProfile();
@@ -60,8 +67,9 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { channelId: string } }
-) {
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<NextResponse> {
     try {
         const { channelId } = await params;
         const profile = await currentProfile();

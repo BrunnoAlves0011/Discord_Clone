@@ -1,24 +1,25 @@
 import { redirect } from "next/navigation";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { Metadata, ResolvingMetadata } from "next";
 
-interface InviteCodePageProps {
-    params: {
-        inviteCode: string;
-    }
-};
+type Props = {
+    params: Promise<{ inviteCode: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
 const InviteCodePage = async ({
-    params
-}: InviteCodePageProps ) => {
+    params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<any> => {
     const { inviteCode } = await params;
     const profile = await currentProfile();
 
-    if(!profile){
+    if (!profile) {
         return redirect("/sign-in");
     }
-    
-    if(!inviteCode){
+
+    if (!inviteCode) {
         return redirect("/");
     }
 
@@ -33,7 +34,7 @@ const InviteCodePage = async ({
         }
     });
 
-    if(existingServer){
+    if (existingServer) {
         return redirect(`/servers/${existingServer.id}`);
     }
 
@@ -52,11 +53,11 @@ const InviteCodePage = async ({
         }
     });
 
-    if(server) {
+    if (server) {
         return redirect(`/servers/${server.id}`)
     }
 
-    return null;
+    return undefined;
 }
- 
+
 export default InviteCodePage;

@@ -1,6 +1,7 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface ServerIdPageProps {
     params: {
@@ -8,9 +9,15 @@ interface ServerIdPageProps {
     }
 };
 
+type Props = {
+    params: Promise<{ serverId: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
 const ServerIdPage = async ({
-    params
-}: ServerIdPageProps) => {
+    params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<any> => {
     const { serverId } = await params;
     const profile = await currentProfile();
     

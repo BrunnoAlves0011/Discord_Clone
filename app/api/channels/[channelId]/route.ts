@@ -8,6 +8,7 @@ export async function DELETE(
     { params }: { params: { channelId: string } }
 ) {
     try {
+        const { channelId } = await params;
         const profile = await currentProfile();
         const { searchParams } = new URL(req.url);
         
@@ -21,7 +22,7 @@ export async function DELETE(
             return new NextResponse("Server ID missing", { status: 400 });
         }
 
-        if(!params.channelId) {
+        if(!channelId) {
             return new NextResponse("Channel ID missing", { status: 400 });
         }
         
@@ -40,7 +41,7 @@ export async function DELETE(
             data: {
                 channels: {
                     delete: {
-                        id: params.channelId,
+                        id: channelId,
                         name: {
                             not: "general",
                         }
